@@ -1,0 +1,23 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Tema principal do app -->
+    <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Cor de fundo padrão -->
+        <item name="android:windowBackground">@drawable/gradient_fundo</item>
+
+        <!-- Estilo global para botões quadrados -->
+        <item name="materialButtonStyle">@style/SquareButtonStyle</item>
+
+        <!-- Outras configs de texto e cor -->
+        <item name="android:textColor">#DBB7B7</item>
+    </style>
+
+    <!-- Estilo dos botões quadrados -->
+    <style name="SquareButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">16dp</item>
+        <item name="backgroundTint">#190202</item>
+        <item name="android:textColor">#DBB7B7</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+</resources>
