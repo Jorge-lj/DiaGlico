@@ -156,7 +156,7 @@ public class DiaGlicoDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String[] colunas = {KEY_ID, KEY_GLICEMIA, KEY_DATA, KEY_HORA, KEY_STATUS, KEY_COMENTARIO};
         String selecao = KEY_USER_ID + " = ?";
-        String[] argumentos = {String.valueOf(userId)};
+        String[] argumentos = new String[]{String.valueOf(userId)};
 
         if (filtroTipo != null && !filtroTipo.isEmpty()) {
             if (filtroTipo.equals("status")) {
@@ -172,3 +172,23 @@ public class DiaGlicoDB extends SQLiteOpenHelper {
         }
         String orderBy = KEY_DATA + " DESC, " + KEY_HORA + " DESC";
         Cursor cursor = null;
+        try {
+            cursor = db.query(TABLE_GLICEMIAS, colunas, selecao, argumentos, null, null, orderBy);
+        } catch (Exception e) {
+            Log.e(TAG, "Erro ao buscar glicemias: " + e.getMessage());
+            // Se houver erro, retorne um cursor nulo para evitar crashes
+            return null;
+        } finally {
+            // O cursor é retornado, então a conexão não deve ser fechada aqui
+            // O desenvolvedor que chamar a função será responsável por fechar o cursor e o db
+        }
+        return cursor;
+    }
+
+    public int removerGlicemia(int idGlicemia) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int linhasAfetadas = db.delete(TABLE_GLICEMIAS, KEY_ID + " = ?", new String[]{String.valueOf(idGlicemia)});
+        db.close();
+        return linhasAfetadas;
+    }
+}

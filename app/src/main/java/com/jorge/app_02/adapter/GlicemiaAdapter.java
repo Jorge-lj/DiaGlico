@@ -13,12 +13,34 @@ import java.util.List;
 
 public class GlicemiaAdapter extends RecyclerView.Adapter<GlicemiaAdapter.GlicemiaViewHolder> {
 
-    private final Context context;
-    private final List<Glicemia> glicemiaList;
+    // Interface para comunicar a ação de exclusão para a Activity
+    public interface OnItemLongClickListener {
+        void onItemLongClick(Glicemia glicemia);
+    }
 
-    public GlicemiaAdapter(Context context, List<Glicemia> glicemiaList) {
+    private Context context;
+    private List<Glicemia> listaGlicemias;
+    private OnItemLongClickListener listener;
+
+    public GlicemiaAdapter(Context context, List<Glicemia> listaGlicemias, OnItemLongClickListener listener) {
         this.context = context;
-        this.glicemiaList = glicemiaList;
+        this.listaGlicemias = listaGlicemias;
+        this.listener = listener;
+    }
+
+    public static class GlicemiaViewHolder extends RecyclerView.ViewHolder {
+        public TextView itemDataHora;
+        public TextView itemValor;
+        public TextView itemComentario;
+        public TextView itemStatus;
+
+        public GlicemiaViewHolder(@NonNull View itemView) {
+            super(itemView);
+            itemDataHora = itemView.findViewById(R.id.itemDataHora);
+            itemValor = itemView.findViewById(R.id.itemValor);
+            itemComentario = itemView.findViewById(R.id.itemComentario);
+            itemStatus = itemView.findViewById(R.id.itemStatus);
+        }
     }
 
     @NonNull
@@ -30,50 +52,32 @@ public class GlicemiaAdapter extends RecyclerView.Adapter<GlicemiaAdapter.Glicem
 
     @Override
     public void onBindViewHolder(@NonNull GlicemiaViewHolder holder, int position) {
-        Glicemia glicemia = glicemiaList.get(position);
-        holder.bind(glicemia);
+        Glicemia glicemia = listaGlicemias.get(position);
+
+        // Preenche os TextViews com os dados do objeto
+        holder.itemDataHora.setText(glicemia.getData() + " - " + glicemia.getHora());
+        holder.itemValor.setText("Valor: " + glicemia.getGlicemia() + " mg/dL");
+        holder.itemComentario.setText("Comentário: " + glicemia.getComentario());
+        holder.itemStatus.setText("Status: " + glicemia.getStatus());
+
+        // Adiciona um listener de toque longo para a exclusão
+        holder.itemView.setOnLongClickListener(v -> {
+            if (listener != null) {
+                listener.onItemLongClick(glicemia);
+            }
+            return true; // Retorna true para consumir o evento
+        });
     }
 
     @Override
     public int getItemCount() {
-        return glicemiaList.size();
+        return listaGlicemias.size();
     }
 
-    public static class GlicemiaViewHolder extends RecyclerView.ViewHolder {
-
-        private final TextView textViewData;
-        private final TextView textViewHora;
-        private final TextView textViewGlicemia;
-        private final TextView textViewStatus;
-        private final TextView textViewComentario;
-
-        public GlicemiaViewHolder(@NonNull View itemView) {
-            super(itemView);
-            // CORREÇÃO: Certifique-se de que os IDs correspondem exatamente aos do seu XML
-            textViewData = itemView.findViewById(R.id.textViewData);
-            textViewHora = itemView.findViewById(R.id.textViewHora);
-            textViewGlicemia = itemView.findViewById(R.id.editTextGlicemia);
-            textViewStatus = itemView.findViewById(R.id.textViewStatus);
-            textViewComentario = itemView.findViewById(R.id.editTextComentario);
-        }
-
-        public void bind(Glicemia glicemia) {
-            // CORREÇÃO: Adicionadas verificações de null para evitar crashes
-            if (textViewData != null) {
-                textViewData.setText(glicemia.getData());
-            }
-            if (textViewHora != null) {
-                textViewHora.setText(glicemia.getHora());
-            }
-            if (textViewGlicemia != null) {
-                textViewGlicemia.setText(String.valueOf(glicemia.getGlicemia()));
-            }
-            if (textViewStatus != null) {
-                textViewStatus.setText(glicemia.getStatus());
-            }
-            if (textViewComentario != null) {
-                textViewComentario.setText(glicemia.getComentario());
-            }
-        }
+    // Método para atualizar os dados da lista, usado para a busca
+    public void updateList(List<Glicemia> newList) {
+        listaGlicemias.clear();
+        listaGlicemias.addAll(newList);
+        notifyDataSetChanged();
     }
 }

@@ -15,11 +15,7 @@ public class SessionManager {
         this.prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
-    /**
-     * Salva o nome de usuário e o ID do usuário logado.
-     * @param username O nome de usuário.
-     * @param userId O ID do usuário.
-     */
+    //Salva o nome de usuário e o ID do usuário logado.
     public void saveLoginSession(String username, int userId) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(KEY_LOGGED_IN_USERNAME, username);
@@ -27,25 +23,17 @@ public class SessionManager {
         editor.apply();
     }
 
-    /**
-     * Obtém o ID do usuário logado.
-     * @return O ID do usuário, ou -1 se não estiver logado.
-     */
+    //Obtém o ID do usuário logado.
     public int getLoggedInUserId() {
         return prefs.getInt(KEY_LOGGED_IN_USER_ID, -1);
     }
 
-    /**
-     * Obtém o nome de usuário logado.
-     * @return O nome de usuário, ou null se não estiver logado.
-     */
+    //Obtém o nome de usuário logado.
     public String getLoggedInUsername() {
         return prefs.getString(KEY_LOGGED_IN_USERNAME, null);
     }
 
-    /**
-     * Limpa a sessão do usuário.
-     */
+    //Limpa a sessão do usuário.
     public void clearLoginSession() {
         SharedPreferences.Editor editor = prefs.edit();
         editor.remove(KEY_LOGGED_IN_USERNAME);

@@ -19,11 +19,8 @@ public class GlicemiaController {
         this.db = new DiaGlicoDB(context);
     }
 
-    /**
-     * Salva um novo registro de glicemia no banco de dados.
-     * @param glicemia O objeto Glicemia a ser salvo.
-     * @return O ID da nova linha inserida, ou -1 em caso de erro.
-     */
+    // Salva um novo registro de glicemia no banco de dados.
+
     public long salvarGlicemia(Glicemia glicemia) {
         ContentValues dados = new ContentValues();
         // Os nomes das colunas devem corresponder exatamente aos da tabela
@@ -38,11 +35,8 @@ public class GlicemiaController {
         return db.salvarObjeto(DiaGlicoDB.TABLE_GLICEMIAS, dados);
     }
 
-    /**
-     * Busca todos os registros de glicemia para um usuário específico.
-     * @param userId O ID do usuário para o qual buscar os registros.
-     * @return Uma lista de objetos Glicemia.
-     */
+    // Busca todos os registros de glicemia para um usuário específico.
+
     public List<Glicemia> buscarGlicemiasPorUsuario(int userId) {
         List<Glicemia> glicemias = new ArrayList<>();
         Cursor cursor = db.buscarGlicemiasPorIdUsuario(userId);
@@ -55,13 +49,8 @@ public class GlicemiaController {
         return glicemias;
     }
 
-    /**
-     * Busca registros de glicemia com base em um filtro.
-     * @param userId O ID do usuário.
-     * @param filtroTipo O tipo de filtro (ex: "data", "status").
-     * @param filtroValor O valor do filtro.
-     * @return Uma lista de objetos Glicemia.
-     */
+    // Busca registros de glicemia com base em um filtro.
+
     public List<Glicemia> buscarGlicemiasFiltradas(int userId, String filtroTipo, String filtroValor) {
         List<Glicemia> glicemias = new ArrayList<>();
         Cursor cursor = db.buscarGlicemiasFiltradas(userId, filtroTipo, filtroValor);
@@ -74,21 +63,14 @@ public class GlicemiaController {
         return glicemias;
     }
 
-    /**
-     * Remove um registro de glicemia do banco de dados.
-     * @param idGlicemia O ID da glicemia a ser removida.
-     * @return true se a remoção for bem-sucedida, false caso contrário.
-     */
+    // Remove um registro de glicemia do banco de dados.
     public boolean removerGlicemia(int idGlicemia) {
         int linhasAfetadas = db.removerGlicemia(idGlicemia);
         return linhasAfetadas > 0;
     }
 
-    /**
-     * Converte um Cursor (resultado de uma busca no DB) em um objeto Glicemia.
-     * @param cursor O Cursor a ser convertido.
-     * @return Um objeto Glicemia preenchido.
-     */
+    // Converte um Cursor (resultado de uma busca no DB) em um objeto Glicemia.
+
     private Glicemia criarGlicemiaDoCursor(Cursor cursor) {
         Glicemia glicemia = new Glicemia();
         try {
