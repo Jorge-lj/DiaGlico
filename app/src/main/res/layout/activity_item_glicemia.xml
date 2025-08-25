@@ -10,6 +10,7 @@
     android:layout_marginHorizontal="8dp"
     android:backgroundTintMode="src_over">
 
+    <!-- Campo de Data e Hora: exibido no topo do item. -->
     <TextView
         android:id="@+id/itemDataHora"
         android:layout_width="wrap_content"
@@ -20,6 +21,7 @@
         android:textStyle="bold"
         android:layout_marginBottom="4dp" />
 
+    <!-- Campo de Valor da Glicemia. -->
     <TextView
         android:id="@+id/itemValor"
         android:layout_width="wrap_content"
@@ -29,6 +31,7 @@
         android:textSize="16sp"
         android:layout_marginBottom="4dp" />
 
+    <!-- Campo de Comentário. -->
     <TextView
         android:id="@+id/itemComentario"
         android:layout_width="wrap_content"
@@ -38,6 +41,7 @@
         android:textSize="14sp"
         android:layout_marginBottom="4dp" />
 
+    <!-- Campo de Status da Glicemia. -->
     <TextView
         android:id="@+id/itemStatus"
         android:layout_width="wrap_content"
