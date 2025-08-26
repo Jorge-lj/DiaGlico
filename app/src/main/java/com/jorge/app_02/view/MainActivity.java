@@ -19,7 +19,7 @@ import com.jorge.app_02.R;
 import com.jorge.app_02.adapter.GlicemiaAdapter;
 import com.jorge.app_02.controller.GlicemiaController;
 import com.jorge.app_02.model.Glicemia;
-import com.jorge.app_02.util.SessionManager;
+import com.jorge.app_02.util.Managem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements GlicemiaAdapter.O
     private GlicemiaAdapter glicemiaAdapter;
     private GlicemiaController glicemiaController;
     private List<Glicemia> listaGlicemias;
-    private SessionManager sessionManager;
+    private Managem managem;
     private EditText editTextSearch;
 
     @SuppressLint("MissingInflatedId")
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements GlicemiaAdapter.O
         setContentView(R.layout.activity_main);
 
         glicemiaController = new GlicemiaController(this);
-        sessionManager = new SessionManager(this);
+        managem = new Managem(this);
 
         textViewNomeUsuario = findViewById(R.id.textViewNomeUsuario);
         btnNovoRegistro = findViewById(R.id.btnNovoRegistro);
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements GlicemiaAdapter.O
     }
 
     private void loadUserData() {
-        String loggedInUsername = sessionManager.getLoggedInUsername();
+        String loggedInUsername = managem.getLoggedInUsername();
         if (loggedInUsername != null) {
             textViewNomeUsuario.setText("Olá, " + loggedInUsername);
         } else {
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements GlicemiaAdapter.O
     }
 
     private void loadGlicemias(String termoBusca) {
-        int userId = sessionManager.getLoggedInUserId();
+        int userId = managem.getLoggedInUserId();
         if (userId != -1) {
             // Busca todos os registros do usuário
             List<Glicemia> glicemias = glicemiaController.buscarGlicemiasPorUsuario(userId);

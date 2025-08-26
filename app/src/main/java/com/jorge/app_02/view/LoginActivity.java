@@ -2,7 +2,6 @@ package com.jorge.app_02.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,14 +12,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.jorge.app_02.R;
 import com.jorge.app_02.controller.UsuarioController;
 import com.jorge.app_02.model.Usuario;
-import com.jorge.app_02.util.SessionManager; // Importar a nova classe
+import com.jorge.app_02.util.Managem; // Importar a nova classe
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText nomeUsuarioEditText, senhaEditText;
     private Button btnLogin;
     private TextView textCadastro, btnLimparLogin;
-    private SessionManager sessionManager;
+    private Managem managem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         // Inicializa o SessionManager
-        sessionManager = new SessionManager(this);
+        managem = new Managem(this);
 
         // Inicializa as views
         initViews();
@@ -67,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
             Usuario usuarioLogado = controller.buscarUsuarioPorNomeUsuario(nomeUsuario);
             if (usuarioLogado != null) {
                 // Usa o SessionManager para salvar a sessão de forma segura
-                sessionManager.saveLoginSession(nomeUsuario, usuarioLogado.getId());
+                managem.saveLoginSession(nomeUsuario, usuarioLogado.getId());
                 Toast.makeText(this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show();
                 navigateToMain();
             } else {
@@ -90,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void clearLogin() {
-        sessionManager.clearLoginSession();
+        managem.clearLoginSession();
         nomeUsuarioEditText.setText("");
         senhaEditText.setText("");
         Toast.makeText(this, "Dados de login limpos.", Toast.LENGTH_SHORT).show();

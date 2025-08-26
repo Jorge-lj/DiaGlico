@@ -3,7 +3,7 @@ package com.jorge.app_02.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class SessionManager {
+public class Managem {
 
     private static final String PREFS_NAME = "LoginPrefs";
     private static final String KEY_LOGGED_IN_USERNAME = "loggedInUsername";
@@ -11,7 +11,7 @@ public class SessionManager {
 
     private final SharedPreferences prefs;
 
-    public SessionManager(Context context) {
+    public Managem(Context context) {
         this.prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 

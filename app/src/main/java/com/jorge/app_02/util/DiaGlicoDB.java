@@ -52,7 +52,6 @@ public class DiaGlicoDB extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_USUARIOS_TABLE);
         Log.d(TAG, "Tabela de usuários criada com sucesso.");
 
-        // CORREÇÃO: Tipo de dado para data e hora mudado para TEXT
         String CREATE_GLICEMIAS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_GLICEMIAS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_USER_ID + " INTEGER, "

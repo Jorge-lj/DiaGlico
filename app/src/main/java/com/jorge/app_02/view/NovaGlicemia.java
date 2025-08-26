@@ -1,10 +1,7 @@
 package com.jorge.app_02.view;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,23 +12,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.jorge.app_02.R;
 import com.jorge.app_02.controller.GlicemiaController;
 import com.jorge.app_02.model.Glicemia;
-import com.jorge.app_02.util.SessionManager;
+import com.jorge.app_02.util.Managem;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-/**
- * Activity para adicionar um novo registro de glicemia.
- */
 public class NovaGlicemia extends AppCompatActivity {
 
     private EditText editTextGlicemia, editTextComentario;
     private TextView textViewData, textViewHora, textViewStatus;
     private Button btnSalvarGlicemia;
     private GlicemiaController glicemiaController;
-    private SessionManager sessionManager;
+    private Managem managem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +34,7 @@ public class NovaGlicemia extends AppCompatActivity {
 
         // Inicializa o controlador e o gerenciador de sessão
         glicemiaController = new GlicemiaController(this);
-        sessionManager = new SessionManager(this);
+        managem = new Managem(this);
 
         // Referencia as views do layout XML
         setupViews();
@@ -52,9 +46,7 @@ public class NovaGlicemia extends AppCompatActivity {
         setupSaveButton();
     }
 
-    /**
-     * Inicializa todas as Views referenciadas no layout.
-     */
+    // Inicializa todas as Views referenciadas no layout.
     private void setupViews() {
         editTextGlicemia = findViewById(R.id.editTextGlicemia);
         editTextComentario = findViewById(R.id.editTextComentario);
@@ -64,10 +56,8 @@ public class NovaGlicemia extends AppCompatActivity {
         btnSalvarGlicemia = findViewById(R.id.btnSalvarGlicemia);
     }
 
-    /**
-     * Define a data e hora atuais formatadas nos TextViews.
-     * Agora com o fuso horário de Brasília para garantir a precisão.
-     */
+    // Define a data e hora atuais formatadas nos TextViews.
+    // Agora com o fuso horário de Brasília para garantir a precisão.
     private void setupDateTime() {
         // Criando formatos para data e hora
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -83,23 +73,17 @@ public class NovaGlicemia extends AppCompatActivity {
         textViewHora.setText("Hora: " + timeFormat.format(new Date()));
     }
 
-    /**
-     * Configura a ação do botão de salvar, chamando o método salvarGlicemia().
-     */
+    // Configura a ação do botão de salvar, chamando o método salvarGlicemia().
     private void setupSaveButton() {
         btnSalvarGlicemia.setOnClickListener(v -> salvarGlicemia());
     }
 
-    /**
-     * Obtém o ID do usuário logado a partir das SharedPreferences.
-     */
+    // Obtém o ID do usuário logado a partir das SharedPreferences.
     private int getLoggedInUserId() {
-        return sessionManager.getLoggedInUserId();
+        return managem.getLoggedInUserId();
     }
 
-    /**
-     * Determina o status da glicemia (Normal, Alta ou Baixa).
-     */
+    // Determina o status da glicemia (Normal, Alta ou Baixa).
     private String getGlicemiaStatus(int valorGlicemia) {
         if (valorGlicemia >= 126) {
             return "Alta (Hiperglicemia)";
@@ -110,9 +94,7 @@ public class NovaGlicemia extends AppCompatActivity {
         }
     }
 
-    /**
-     * Coleta os dados da interface e salva o registro de glicemia.
-     */
+    // Coleta os dados da interface e salva o registro de glicemia.
     private void salvarGlicemia() {
         int userId = getLoggedInUserId();
         if (userId == -1) {

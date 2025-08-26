@@ -38,12 +38,10 @@ public class ImagemSalva {
             values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                // Android 10+ → usa MediaStore com caminho relativo
                 values.put(MediaStore.Images.Media.RELATIVE_PATH,
                         Environment.DIRECTORY_PICTURES + "/MeusTitulos");
                 values.put(MediaStore.Images.Media.IS_PENDING, 1);
             } else {
-                // Android 9 ou menor → usa diretório público
                 File directory = new File(
                         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
                         "MeusTitulos"
